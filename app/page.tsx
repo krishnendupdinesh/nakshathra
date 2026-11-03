@@ -5,64 +5,58 @@ const EYEBROW = "Our promise";
 const HEADING = "Made to be trusted";
 const INTRO = "Six assurances that come with every piece you take home.";
 
-// Silk texture from /public, laid under a dark green wash so text stays clear
+// Silk texture from /public under a dark green wash (edit the 0.x values to
+// show more or less of the silk)
+const SECTION_BG =
+  "linear-gradient(180deg, rgba(3,28,21,0.93), rgba(2,21,16,0.97)), url('/home.jpeg')";
 const CARD_BG =
-  "linear-gradient(135deg, rgba(4,36,27,0.86), rgba(2,21,16,0.95)), url('/home.jpeg')";
+  "linear-gradient(180deg, rgba(10,61,47,0.72), rgba(4,36,27,0.92)), url('/home.jpeg')";
 
 type IconName = "gem" | "seal" | "exchange" | "return" | "package" | "shield";
 
 // Keep the wording to what you can honestly stand behind.
-// `place` positions each card on wide screens (xl and up): column, row,
-// side-to-side alignment and a vertical nudge, so they feel scattered.
-// `flow` handles phones and tablets: side margins and a tablet offset.
+// `drop` is how far each card hangs from the chain on wide screens.
 const PROMISES: {
   icon: IconName;
   title: string;
   text: string;
-  flow: string;
-  place: string;
+  drop: string;
 }[] = [
   {
     icon: "gem",
     title: "Certified natural diamonds",
     text: "Every diamond comes with its grading certificate.",
-    flow: "mr-6 md:mr-0",
-    place: "xl:col-start-1 xl:row-start-1 xl:justify-self-start xl:translate-y-2",
+    drop: "xl:h-6",
   },
   {
     icon: "seal",
     title: "BIS hallmarked gold",
     text: "Hallmarked for purity, so you know what you are wearing.",
-    flow: "ml-6 md:ml-0 md:translate-y-8",
-    place: "xl:col-start-1 xl:row-start-2 xl:justify-self-end xl:translate-y-6",
+    drop: "xl:h-20",
   },
   {
     icon: "exchange",
     title: "Lifetime exchange",
     text: "Exchange your piece at any Nakshathra showroom.",
-    flow: "mr-6 md:mr-0",
-    place: "xl:col-start-1 xl:row-start-3 xl:justify-self-start xl:translate-y-0",
+    drop: "xl:h-6",
   },
   {
     icon: "return",
     title: "30-day returns",
     text: "Changed your mind? Return it within 30 days. Terms apply.",
-    flow: "ml-6 md:ml-0 md:translate-y-8",
-    place: "xl:col-start-3 xl:row-start-1 xl:justify-self-end xl:translate-y-10",
+    drop: "xl:h-20",
   },
   {
     icon: "package",
     title: "Free shipping",
     text: "Insured delivery to your door at no extra cost.",
-    flow: "mr-6 md:mr-0",
-    place: "xl:col-start-3 xl:row-start-2 xl:justify-self-start xl:translate-y-4",
+    drop: "xl:h-6",
   },
   {
     icon: "shield",
     title: "One-year warranty",
     text: "Covered against manufacturing defects for a full year.",
-    flow: "ml-6 md:ml-0 md:translate-y-8",
-    place: "xl:col-start-3 xl:row-start-3 xl:justify-self-end xl:translate-y-8",
+    drop: "xl:h-20",
   },
 ];
 
@@ -120,6 +114,34 @@ const Icon = ({ name }: { name: IconName }) => {
   );
 };
 
+/* One scallop of the chain. Six of them side by side make a garland. */
+const ChainSwag = () => (
+  <svg
+    aria-hidden="true"
+    viewBox="0 0 100 20"
+    preserveAspectRatio="none"
+    className="block h-5 w-full overflow-visible text-[#d4b678] sm:h-6"
+  >
+    <path
+      d="M0 0 Q50 40 100 0"
+      fill="none"
+      stroke="currentColor"
+      strokeOpacity="0.35"
+      strokeWidth="1"
+      vectorEffect="non-scaling-stroke"
+    />
+    <path
+      d="M0 0 Q50 40 100 0"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeDasharray="0.1 6"
+      vectorEffect="non-scaling-stroke"
+    />
+  </svg>
+);
+
 /* ------------------------------------------------------------------ */
 /* Component                                                           */
 /* ------------------------------------------------------------------ */
@@ -127,68 +149,94 @@ export default function Home() {
   return (
     <section
       aria-labelledby="promise-heading"
-      className="relative overflow-hidden bg-[#f1ece2] px-4 py-20 text-[#031c15] md:px-8 md:py-28"
+      style={{ backgroundImage: SECTION_BG, backgroundSize: "cover" }}
+      className="relative overflow-hidden bg-[#031c15] px-4 py-20 text-[#efe6d2] md:px-8 md:py-28"
     >
-      <div className="relative mx-auto grid max-w-7xl gap-5 md:grid-cols-2 md:gap-x-6 xl:grid-cols-[1fr_22rem_1fr] xl:grid-rows-3 xl:gap-x-8 xl:gap-y-8">
-        {/* Heading, centred between the two card columns */}
-        <div className="relative mb-6 text-center md:col-span-2 md:mb-10 xl:col-span-1 xl:col-start-2 xl:row-span-3 xl:row-start-1 xl:mb-0 xl:self-center">
-          {/* Gold diamond outlines behind the heading (wide screens) */}
-          <span
-            aria-hidden="true"
-            className="pointer-events-none absolute left-1/2 top-1/2 hidden h-72 w-72 -translate-x-1/2 -translate-y-1/2 rotate-45 border border-[#b8955a]/30 xl:block"
-          />
-          <span
-            aria-hidden="true"
-            className="pointer-events-none absolute left-1/2 top-1/2 hidden h-60 w-60 -translate-x-1/2 -translate-y-1/2 rotate-45 border border-[#b8955a]/15 xl:block"
-          />
-
-          <div className="relative">
-            <p className="text-[10px] font-medium uppercase tracking-[0.3em] text-[#8a6d3b]">
-              {EYEBROW}
-            </p>
-            <h2
-              id="promise-heading"
-              className="mt-4 font-serif text-4xl leading-tight md:text-5xl"
-            >
-              {HEADING}
-            </h2>
-            <p className="mx-auto mt-5 max-w-[15rem] text-[15px] leading-relaxed text-[#031c15]/65">
-              {INTRO}
-            </p>
-          </div>
+      {/* Heading */}
+      <div className="mx-auto max-w-xl text-center">
+        <p className="text-[10px] font-medium uppercase tracking-[0.3em] text-[#d4b678]">
+          {EYEBROW}
+        </p>
+        <h2
+          id="promise-heading"
+          className="mt-4 font-serif text-4xl leading-tight text-[#e9d6a6] md:text-5xl"
+        >
+          {HEADING}
+        </h2>
+        <div
+          aria-hidden="true"
+          className="mx-auto mt-6 flex items-center justify-center gap-3"
+        >
+          <span className="h-px w-16 bg-gradient-to-r from-transparent to-[#d4b678]/60" />
+          <span className="h-1.5 w-1.5 rotate-45 bg-[#d4b678]" />
+          <span className="h-px w-16 bg-gradient-to-l from-transparent to-[#d4b678]/60" />
         </div>
+        <p className="mx-auto mt-6 max-w-sm text-[15px] leading-relaxed text-[#efe6d2]/70">
+          {INTRO}
+        </p>
+      </div>
 
-        {/* Promise cards */}
-        {PROMISES.map((p) => (
-          <article
-            key={p.title}
-            style={{ backgroundImage: CARD_BG, backgroundSize: "cover" }}
-            className={`group relative w-full overflow-hidden rounded-2xl border border-[#d4b678]/35 p-7 text-[#efe6d2] shadow-[0_18px_40px_rgba(3,28,21,0.25)] transition-[border-color,box-shadow] duration-300 hover:border-[#d4b678] hover:shadow-[0_22px_50px_rgba(3,28,21,0.4)] xl:max-w-[19rem] ${p.flow} ${p.place}`}
-          >
-            {/* Inner gold hairline frame */}
+      {/* Chain with the promises hanging from it */}
+      <ul className="mx-auto mt-16 grid max-w-7xl grid-cols-2 gap-y-10 sm:grid-cols-3 xl:grid-cols-6 xl:gap-y-0">
+        {PROMISES.map((p, i) => (
+          <li key={p.title} className="flex flex-col items-center px-1.5 sm:px-2 xl:px-0">
+            {/* Chain segment, with a gold diamond joining each pair */}
+            <div className="relative w-full">
+              <ChainSwag />
+              <span
+                aria-hidden="true"
+                className="absolute left-0 top-0 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-[#d4b678]"
+              />
+              {(i + 1) % 6 === 0 && (
+                <span
+                  aria-hidden="true"
+                  className="absolute right-0 top-0 hidden h-2 w-2 -translate-y-1/2 translate-x-1/2 rotate-45 bg-[#d4b678] xl:block"
+                />
+              )}
+            </div>
+
+            {/* Thread the card hangs from */}
             <span
               aria-hidden="true"
-              className="pointer-events-none absolute inset-2 rounded-xl border border-[#d4b678]/15"
+              className={`block h-6 w-px bg-gradient-to-b from-[#d4b678] to-[#d4b678]/40 ${p.drop}`}
+            />
+            <span
+              aria-hidden="true"
+              className="-mt-px block h-1.5 w-1.5 rotate-45 bg-[#d4b678]"
             />
 
-            <div className="relative">
-              <span className="grid h-11 w-11 place-items-center rounded-full border border-[#d4b678]/40 text-[#d4b678] transition-colors duration-300 group-hover:bg-[#d4b678] group-hover:text-[#031c15]">
+            {/* Arched card */}
+            <article
+              style={{
+                backgroundImage: CARD_BG,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+              className="group relative mx-1 mt-1 flex w-full flex-1 flex-col items-center overflow-hidden rounded-t-full rounded-b-2xl border border-[#d4b678]/40 px-4 pb-8 pt-12 text-center shadow-[0_18px_40px_rgba(0,0,0,0.35)] transition-[border-color,box-shadow] duration-300 hover:border-[#d4b678] hover:shadow-[0_22px_50px_rgba(212,182,120,0.15)] xl:mx-3 xl:flex-none xl:px-5"
+            >
+              {/* Inner arched hairline */}
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-1.5 rounded-t-full rounded-b-xl border border-[#d4b678]/15"
+              />
+
+              <span className="relative grid h-12 w-12 place-items-center rounded-full border border-[#d4b678]/45 text-[#d4b678] transition-colors duration-300 group-hover:bg-[#d4b678] group-hover:text-[#031c15]">
                 <Icon name={p.icon} />
               </span>
-              <h3 className="mt-5 font-serif text-[22px] leading-snug text-[#e9d6a6]">
+              <h3 className="relative mt-5 font-serif text-[19px] leading-snug text-[#e9d6a6]">
                 {p.title}
               </h3>
               <span
                 aria-hidden="true"
-                className="mt-3 block h-px w-10 bg-gradient-to-r from-[#d4b678] to-transparent"
+                className="relative mt-3 block h-px w-10 bg-gradient-to-r from-transparent via-[#d4b678] to-transparent"
               />
-              <p className="mt-3 text-[14px] leading-relaxed text-[#efe6d2]/80">
+              <p className="relative mt-3 text-[13px] leading-relaxed text-[#efe6d2]/75">
                 {p.text}
               </p>
-            </div>
-          </article>
+            </article>
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
   );
 }
