@@ -50,13 +50,13 @@ const COMPANY_LINKS = [
 ];
 
 const SOCIALS = [
-  { label: "Instagram", href: "https://instagram.com/", icon: "instagram" },
-  { label: "Facebook", href: "https://facebook.com/", icon: "facebook" },
+  { label: "Instagram", href: "https://www.instagram.com/shamna__nakshathra?vrfl=MWM4em9uajBsbHZjMg==", icon: "instagram" },
+  { label: "Facebook", href: "https://facebook.com/Shmananakshathra", icon: "facebook" },
   { label: "TikTok", href: "https://tiktok.com/", icon: "tiktok" },
-  { label: "YouTube", href: "https://youtube.com/", icon: "youtube" },
+  { label: "YouTube", href: "https://youtube.com/@nakshathrashamna?si=wrHrOMfKS6rDk_r9", icon: "youtube" },
 ] as const;
 
-const INSTAGRAM_FOUNDER_HREF = "https://instagram.com/"; // "Follow Shamna" link
+const INSTAGRAM_FOUNDER_HREF = "https://www.instagram.com/shamna__nakshathra?vrfl=MWM4em9uajBsbHZjMg=="; // "Follow Shamna" link
 
 const LEGAL_LINES = [
   "Nakshathra Gold and Diamond LLP",
